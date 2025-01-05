@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User; // Adicione esta linha
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,11 +18,12 @@ class ProjectFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'=> fake()->words(5),
-            'description' => fake()->randomHtml(),
+            'title'=> collect(fake()->words(5))->join(' '),
+            'description' => htmlspecialchars(fake()->randomHtml()),
             'ends_at' => fake()->dateTimeBetween('now', '+3 days'),
             'status' => fake()->randomElement(['open', 'closed']),
-            'tech_stack' => fake()->words(3),
+            'tech_stack' => fake()->randomElements(['PHP', 'React', 'Javascript', 'Node', 'Python', 'Ruby', 'C++','C', 'Java','C#']),
+            'created_by' => User::factory(), 
         ];
     }
 }
