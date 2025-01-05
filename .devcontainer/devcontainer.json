@@ -8,5 +8,12 @@
 	"features": {
 		"ghcr.io/devcontainers-extra/features/zsh-plugins:0": {}
 	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"alexcvzz.vscode-sqlite"
+			]
+		}
+	},
 	"workspaceFolder": "/freelance-hours"
 }
