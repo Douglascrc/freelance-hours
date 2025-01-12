@@ -20,11 +20,13 @@ class Project extends Model
         ];
     }
 
-    public function author() {
+    public function author()
+    {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function proposals() {
+    public function proposals()
+    {
         return $this->hasMany(Proposal::class);
     }
 }

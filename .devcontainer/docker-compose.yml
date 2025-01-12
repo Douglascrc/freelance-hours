@@ -1,9 +1,9 @@
 version: '3.7'
 services:
-  php:
-    image: mcr.microsoft.com/devcontainers/php:1-8.2-bullseye
-    container_name: php-container
-    volumes:
-      - ../.:/freelance-hours
-    ports:
-      - "8000:8000"
+    php:
+        image: mcr.microsoft.com/devcontainers/php:1-8.2-bullseye
+        container_name: php-container
+        volumes:
+            - ../.:/freelance-hours
+        ports:
+            - '8000:8000'
