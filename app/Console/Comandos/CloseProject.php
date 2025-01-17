@@ -1,8 +1,10 @@
 <?php
 namespace App\Console\Commands;
+
 use App\Models\Project;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+
 class CloseProject extends Command
 {
     /**

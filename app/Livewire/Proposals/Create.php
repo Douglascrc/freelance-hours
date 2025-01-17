@@ -19,7 +19,8 @@ class Create extends Component
 
     public int $hours = 0;
 
-    public function validation() {
+    public function validation()
+    {
 
     }
 
@@ -29,16 +30,17 @@ class Create extends Component
         'hours' => 'required|numeric|min:1',
     ];
 
-    public function save() {
+    public function save()
+    {
   
         $this->validate();
         
-        if(!$this-> agree) {
+        if (!$this-> agree) {
             $this->addError('agree', 'Você precisa concordar com os termos de uso');
             return;
         }
 
-        DB::transaction(function() {
+        DB::transaction(function () {
             $proposal =
             $this->project->proposals()
                 ->updateOrcreate(
@@ -46,7 +48,7 @@ class Create extends Component
                     ['hours' => $this->hours]
                 );
         
-            $this->arrangePosition($proposal);          
+            $this->arrangePosition($proposal);
         });
         $this->project->author->notify(new newProposal($this->project));
 
@@ -54,20 +56,23 @@ class Create extends Component
         $this->modal = false;
     }
 
-    public function arrangePosition($proposal) {
-        $query = DB::select('
+    public function arrangePosition($proposal)
+    {
+        $query = DB::select(
+            '
         select *, row_number() over (order by hours asc) as newPosition
         from proposals
-        where project_id = :project',['project' => $this->project->id]
+        where project_id = :project',
+            ['project' => $this->project->id]
         );
 
         $position = collect($query)
-            ->where('id','=', $proposal->id)->first();
+            ->where('id', '=', $proposal->id)->first();
         $otherProposal = collect($query)->where('position', '=', $position->newPosition)->first();
 
-        if($otherProposal) {
+        if ($otherProposal) {
             $proposal->update(['position_status' > 'up']);
-            Proposal::query()->where('id','=', $otherProposal->id)->update(['position_status', 'down']);
+            Proposal::query()->where('id', '=', $otherProposal->id)->update(['position_status', 'down']);
         }
         ArrangePositions::run($this->project->id);
     }
