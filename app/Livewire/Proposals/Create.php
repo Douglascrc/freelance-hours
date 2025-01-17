@@ -42,9 +42,11 @@ class Create extends Component
                 ['hours' => $this->hours]
             );
 
+        $this->dispatch('proposal::created');
         $this->modal = false;
     }
 
+    #[On('proposal::created')]
     public function render()
     {
         return view('livewire.proposals.create');
