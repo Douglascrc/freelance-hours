@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Project;
 use Illuminate\Database\Seeder;
 use App\Models\Proposal;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +21,9 @@ class DatabaseSeeder extends Seeder
             $project = Project::factory() ->create(['created_by' => $u->id]);
 
             Proposal::factory()->count(random_int(4, 45))->create(['project_id' => $project->id]);
+
+            ArrangePositions::run($project->id);
+
         });
             
     }

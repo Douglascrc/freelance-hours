@@ -11,6 +11,8 @@ class Proposals extends Component
 {
     public Project $project;
 
+    public int $qty = 5;
+
     #[Computed()]
     public function lastProposalTime()
     {
@@ -19,9 +21,22 @@ class Proposals extends Component
             ->created_at->diffForHumans();
     }
 
+    public function loadMore()
+    {
+        $this->qty += 5;
+    }
+    #[On('proposal::created')]
+
+    #[Computed()]
+    public function proposals()
+    {
+        return $this->project->proposals()
+            ->orderBy('hours')
+            ->paginate($this->qty);
+    }
+
     public function render()
     {
-        $proposals = $this->project->proposals()->paginate(10);
-        return view('livewire.projects.proposals', compact('proposals'));
+        return view('livewire.projects.proposals');
     }
 }
