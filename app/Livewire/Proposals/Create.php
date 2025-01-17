@@ -46,12 +46,12 @@ class Create extends Component
                     ['hours' => $this->hours]
                 );
         
-            $this->arrangePosition($proposal);
-        
-            $this->dispatch('proposal::created');
-            $this->modal = false;
-            
+            $this->arrangePosition($proposal);          
         });
+        $this->project->author->notify(new newProposal($this->project));
+
+        $this->dispatch('proposal::created');
+        $this->modal = false;
     }
 
     public function arrangePosition($proposal) {
